@@ -12,10 +12,14 @@ type Props = {
   styles: any
   darkMode: boolean
   toggleDarkMode: () => void
+  squareButton: boolean
+  toggleSquareButton: () => void
   difficultyLevel: string
   setDifficultyLevel: any
   levelInstructions: string
+  
 }
+
 
 export const SettingsModal = ({
   isOpen,
@@ -23,6 +27,8 @@ export const SettingsModal = ({
   styles,
   darkMode,
   toggleDarkMode,
+  squareButton,
+  toggleSquareButton,
   difficultyLevel,
   setDifficultyLevel,
   levelInstructions,
@@ -64,13 +70,56 @@ export const SettingsModal = ({
                   } absolute pointer-events-none inline-block top-1/2 -translate-y-1/2 h-5 w-5 shadow rounded-full bg-white transform ring-0 transition ease-in-out duration-200`}
                 />
               </Switch>
-              <Switch.Label as="span" className="ml-3 cursor-pointer">
+              <Switch.Label as="span" className="ml-3 mr-10 cursor-pointer">
                 Dark Mode
               </Switch.Label>
+
+              <Switch
+                checked={squareButton}
+                onChange={toggleSquareButton}
+                className={`${
+                  squareButton
+                    ? 'nm-inset-yellow-500 border-background-dark'
+                    : 'nm-inset-background border-transparent'
+                } relative inline-flex flex-shrink-0 h-8 w-14 p-1 border-2 rounded-full cursor-pointer transition ease-in-out duration-200`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`${
+                    squareButton ? 'translate-x-[1.55rem]' : 'translate-x-0'
+                  } absolute pointer-events-none inline-block top-1/2 -translate-y-1/2 h-5 w-5 shadow rounded-full bg-white transform ring-0 transition ease-in-out duration-200`}
+                />
+              </Switch>
+              <Switch.Label as="span" className="ml-3 cursor-pointer">
+                Square Button
+              </Switch.Label>
             </Switch.Group>
+            
 
             <RadioGroup value={difficultyLevel} onChange={setDifficultyLevel} className="mt-6">
               <RadioGroup.Label className="w-full text-center">Difficulty Level</RadioGroup.Label>
+              <div className="grid grid-cols-3 gap-2 rounded-full mt-2 p-1 nm-inset-background dark:nm-inset-background-dark">
+                {Object.keys(difficulty).map((option) => (
+                  <RadioGroup.Option
+                    key={option}
+                    value={option}
+                    className={({ checked }) =>
+                      `text-primary dark:text-primary-dark ${
+                        checked
+                          ? 'bg-white dark:text-primary'
+                          : 'hover:nm-inset-background-sm dark:hover:nm-inset-background-dark-sm'
+                      }
+                        rounded-full py-2 px-3 flex items-center justify-center text-sm font-bold uppercase sm:flex-1 cursor-pointer`
+                    }
+                  >
+                    <RadioGroup.Label as="p">{option}</RadioGroup.Label>
+                  </RadioGroup.Option>
+                ))}
+              </div>
+            </RadioGroup>
+            
+            <RadioGroup value={difficultyLevel} onChange={setDifficultyLevel} className="mt-6">
+              <RadioGroup.Label className="w-full text-center">Colour Palette</RadioGroup.Label>
               <div className="grid grid-cols-3 gap-2 rounded-full mt-2 p-1 nm-inset-background dark:nm-inset-background-dark">
                 {Object.keys(difficulty).map((option) => (
                   <RadioGroup.Option

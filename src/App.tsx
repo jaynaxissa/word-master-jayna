@@ -38,6 +38,7 @@ type State = {
   letterStatuses: () => { [key: string]: string }
   submittedInvalidWord: boolean
   darkMode: boolean
+  squareButton: boolean
 }
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
     },
     submittedInvalidWord: false,
     darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
+    squareButton: false
   }
 
   const [answer, setAnswer] = useLocalStorage('stateAnswer', initialStates.answer())
@@ -116,6 +118,9 @@ function App() {
 
   const [darkMode, setDarkMode] = useLocalStorage('dark-mode', initialStates.darkMode)
   const toggleDarkMode = () => setDarkMode((prev: boolean) => !prev)
+
+  const [squareButton, setSquareButton] = useLocalStorage('square-button', initialStates.squareButton)
+  const toggleSquareButton = () => setSquareButton((prev:boolean) => !prev)
 
   useEffect(
     () => document.documentElement.classList[darkMode ? 'add' : 'remove']('dark'),
@@ -366,6 +371,9 @@ function App() {
     },
   }
 
+
+  var squareStatus = squareButton ? "squared-full" : "rounded-full";
+
   return (
     <div>
       <div className={`flex flex-col justify-between h-fill bg-background dark:bg-background-dark`}>
@@ -399,7 +407,7 @@ function App() {
                       rowNumber,
                       colNumber,
                       letter
-                    )} inline-flex items-center font-medium justify-center text-lg w-[13vw] h-[13vw] xs:w-14 xs:h-14 sm:w-20 sm:h-20 rounded-full`}
+                    )} inline-flex items-center font-medium justify-center text-lg w-[13vw] h-[13vw] xs:w-14 xs:h-14 sm:w-20 sm:h-20 ${squareStatus}`}
                   >
                     {letter}
                   </span>
@@ -450,6 +458,8 @@ function App() {
           darkMode={darkMode}
           toggleDarkMode={toggleDarkMode}
           difficultyLevel={difficultyLevel}
+          squareButton={squareButton}
+          toggleSquareButton={toggleSquareButton}
           setDifficultyLevel={setDifficultyLevel}
           levelInstructions={getDifficultyLevelInstructions()}
         />
